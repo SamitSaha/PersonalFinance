@@ -41,3 +41,16 @@ app.setStyleSheet('''
 window = MyApp()
 window.show()
 app.exec()
+
+# from PyQt6 import uic
+# from PyQt6.QtWidgets import QApplication, QMainWindow
+
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         uic.loadUi('Designnn.ui', self)
+
+# app = QApplication([])
+# window = MainWindow()
+# window.show()
+# app.exec()
