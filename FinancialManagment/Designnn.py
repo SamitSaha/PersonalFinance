@@ -16,9 +16,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
-    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
+    QMenuBar, QPushButton, QSizePolicy, QStatusBar, QInputDialog,
     QWidget)
-
+from LogIn import Ui_MainWindow  # Import the login window class from LogIn.py
+from SignUp import Ui_SignUp     # Import the SignUp Window class from SignUp.py
 class Ui_FinancialManagment(object):
     def setupUi(self, FinancialManagment):
         if not FinancialManagment.objectName():
@@ -27,51 +28,72 @@ class Ui_FinancialManagment(object):
         self.centralwidget = QWidget(FinancialManagment)
         self.centralwidget.setObjectName(u"centralwidget")
         self.frame1 = QFrame(self.centralwidget)
+        
+        # Frame 1
         self.frame1.setObjectName(u"frame1")
         self.frame1.setGeometry(QRect(0, 0, 951, 31))
         self.frame1.setFrameShape(QFrame.StyledPanel)
         self.frame1.setFrameShadow(QFrame.Raised)
+        
+        # BUTTON
         self.SignUp = QPushButton(self.frame1)
         self.SignUp.setObjectName(u"SignUp")
         self.SignUp.setGeometry(QRect(680, 0, 93, 28))
+        self.SignUp.clicked.connect(self.openSignUpWindow)  # Connect to new slot
+        
         self.LogIN = QPushButton(self.frame1)
         self.LogIN.setObjectName(u"LogIN")
         self.LogIN.setGeometry(QRect(770, 0, 93, 28))
+        self.LogIN.clicked.connect(self.openLoginWindow)  # Connect to new slot
+        
         self.LogOut = QPushButton(self.frame1)
         self.LogOut.setObjectName(u"LogOut")
         self.LogOut.setGeometry(QRect(860, 0, 93, 28))
+        self.LogOut.clicked.connect(self.openLoginWindow)  # Connect to new slot
+        
+        # Other UI components
         self.frame2 = QFrame(self.centralwidget)
         self.frame2.setObjectName(u"frame2")
         self.frame2.setGeometry(QRect(0, 30, 951, 91))
         self.frame2.setFrameShape(QFrame.StyledPanel)
         self.frame2.setFrameShadow(QFrame.Raised)
+        
+        # FRAME 2
         self.label = QLabel(self.frame2)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(340, 20, 181, 51))
         self.label.setMouseTracking(False)
+        
         self.line = QFrame(self.frame2)
         self.line.setObjectName(u"line")
         self.line.setGeometry(QRect(340, 50, 171, 31))
         self.line.setFrameShape(QFrame.Shape.HLine)
         self.line.setFrameShadow(QFrame.Shadow.Sunken)
+        
+        # FRAME 3
         self.frame3 = QFrame(self.centralwidget)
         self.frame3.setObjectName(u"frame3")
         self.frame3.setGeometry(QRect(0, 120, 951, 651))
         self.frame3.setFrameShape(QFrame.StyledPanel)
         self.frame3.setFrameShadow(QFrame.Raised)
+        
         self.pushButton_4 = QPushButton(self.frame3)
         self.pushButton_4.setObjectName(u"pushButton_4")
         self.pushButton_4.setGeometry(QRect(210, 10, 161, 41))
         self.pushButton_5 = QPushButton(self.frame3)
+        
         self.pushButton_5.setObjectName(u"pushButton_5")
         self.pushButton_5.setGeometry(QRect(600, 10, 161, 41))
         self.pushButton_6 = QPushButton(self.frame3)
+        
         self.pushButton_6.setObjectName(u"pushButton_6")
         self.pushButton_6.setGeometry(QRect(410, 10, 161, 41))
         self.pushButton_7 = QPushButton(self.frame3)
+        
         self.pushButton_7.setObjectName(u"pushButton_7")
         self.pushButton_7.setGeometry(QRect(780, 10, 161, 41))
         self.pushButton_8 = QPushButton(self.frame3)
+        
         self.pushButton_8.setObjectName(u"pushButton_8")
         self.pushButton_8.setGeometry(QRect(10, 10, 161, 41))
         FinancialManagment.setCentralWidget(self.centralwidget)
@@ -101,7 +123,40 @@ class Ui_FinancialManagment(object):
         self.pushButton_8.setText(QCoreApplication.translate("FinancialManagment", u"Profile", None))
     # retranslateUi
 
-# app = QApplication(sys.argv)
-# window = Ui_FinancialManagment()
-# window.show()
-# app.exec()
+    def clickHandler(self):
+        dialog = QInputDialog()
+        dialog = QInputDialog()
+        dialog.setLabelText("Enter your name:")
+        dialog.setLabelText("Enter your name2:")
+        dialog.exec()
+        dialog.exec()
+        print(dialog.textValue())
+        
+        print(dialog.textValue())
+    
+    # Slot to open login window
+    def openLoginWindow(self):
+        from PySide6.QtWidgets import QMainWindow
+
+        class LoginWindow(QMainWindow):
+            def __init__(self):
+                super().__init__()
+                self.ui = Ui_MainWindow()
+                self.ui.setupUi(self)
+
+        self.loginWindow = LoginWindow()
+        self.loginWindow.show()    
+    
+    # Slot to open SignUp window    
+    def openSignUpWindow(self):
+        from PySide6.QtWidgets import QMainWindow
+
+        class SignUpWindow(QMainWindow):
+            def __init__(self):
+                super().__init__()
+                self.ui = Ui_SignUp()
+                self.ui.setupUi(self)
+
+        self.loginWindow = SignUpWindow()
+        self.loginWindow.show()
+        
