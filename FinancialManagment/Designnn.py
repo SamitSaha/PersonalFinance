@@ -20,6 +20,19 @@ from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
     QWidget)
 from LogIn import Ui_MainWindow  # Import the login window class from LogIn.py
 from SignUp import Ui_SignUp     # Import the SignUp Window class from SignUp.py
+from Income import IncomeFeature 
+from Expense import ExpenseFeature
+from Savings import SavingsFeature
+from Profile import Ui_ProfileDashboard
+
+class IncomeWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Income")
+        self.setGeometry(300, 300, 400, 300)
+        self.label = QLabel("Income Management Window", self)
+        self.label.setGeometry(50, 50, 300, 30)
+        
 class Ui_FinancialManagment(object):
     def setupUi(self, FinancialManagment):
         if not FinancialManagment.objectName():
@@ -80,22 +93,29 @@ class Ui_FinancialManagment(object):
         self.pushButton_4 = QPushButton(self.frame3)
         self.pushButton_4.setObjectName(u"pushButton_4")
         self.pushButton_4.setGeometry(QRect(210, 10, 161, 41))
-        self.pushButton_5 = QPushButton(self.frame3)
+        self.pushButton_4.clicked.connect(self.openIncomeWindow)  # Connect to new slot
         
+        self.pushButton_5 = QPushButton(self.frame3)        
         self.pushButton_5.setObjectName(u"pushButton_5")
         self.pushButton_5.setGeometry(QRect(600, 10, 161, 41))
-        self.pushButton_6 = QPushButton(self.frame3)
+        self.pushButton_5.clicked.connect(self.openExpenseWindow)  # Connect to new slot
+
         
+        self.pushButton_6 = QPushButton(self.frame3)        
         self.pushButton_6.setObjectName(u"pushButton_6")
         self.pushButton_6.setGeometry(QRect(410, 10, 161, 41))
-        self.pushButton_7 = QPushButton(self.frame3)
+        self.pushButton_6.clicked.connect(self.openSavingsWindow)  # Connect to new slot
+
         
+        self.pushButton_7 = QPushButton(self.frame3)        
         self.pushButton_7.setObjectName(u"pushButton_7")
         self.pushButton_7.setGeometry(QRect(780, 10, 161, 41))
-        self.pushButton_8 = QPushButton(self.frame3)
         
+        self.pushButton_8 = QPushButton(self.frame3)        
         self.pushButton_8.setObjectName(u"pushButton_8")
         self.pushButton_8.setGeometry(QRect(10, 10, 161, 41))
+        self.pushButton_8.clicked.connect(self.openProfileDashboard)
+
         FinancialManagment.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(FinancialManagment)
         self.menubar.setObjectName(u"menubar")
@@ -159,4 +179,30 @@ class Ui_FinancialManagment(object):
 
         self.loginWindow = SignUpWindow()
         self.loginWindow.show()
+    
+    # Slot to open Income Winodw
+    def openIncomeWindow(self):
+        self.IncomeFeature = IncomeFeature()
+        self.IncomeFeature.show()
         
+    def openExpenseWindow(self):
+        self.expensesWindow = ExpenseFeature()
+        self.expensesWindow.show()
+    
+    def openSavingsWindow(self):
+        self.savingsWindow = SavingsFeature()
+        self.savingsWindow.show()
+        
+    def openProfileDashboard(self):
+        # Mock user data for demonstration purposes
+        user_data = {
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "profile_picture": "path_to_profile_pic.jpg",  # Use the actual file path
+            "phone": "+1234567890",
+            "option": "Premium User"
+        }
+
+        # Create and show the Profile Dashboard
+        self.profile_dashboard = Ui_ProfileDashboard(user_data)
+        self.profile_dashboard.exec()
