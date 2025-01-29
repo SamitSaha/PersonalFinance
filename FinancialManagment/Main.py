@@ -2,6 +2,7 @@ import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
 from Designnn import Ui_FinancialManagment  # Replace with the correct module name if it's different
 
+# this is the main function to run the project. 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()  # Create a QMainWindow instance
