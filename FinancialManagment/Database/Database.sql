@@ -1,0 +1,1 @@
+SELECT * FROM financemanagment.profile_table;

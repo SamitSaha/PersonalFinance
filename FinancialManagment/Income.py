@@ -49,10 +49,10 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QDate
 
-class ExpenseFeature(QMainWindow):
+class IncomeFeature(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Expense Feature")
+        self.setWindowTitle("Income Feature")
         self.setGeometry(100, 100, 900, 500)
         self.init_ui()
 
@@ -76,11 +76,16 @@ class ExpenseFeature(QMainWindow):
         # "Add Row" Button
         self.add_row_button = QPushButton("Add Row")
         self.add_row_button.clicked.connect(self.add_new_row)
+        
+        # Back Button (Closes the Window)
+        self.back_button = QPushButton("Back")
+        self.back_button.clicked.connect(self.close)
 
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(self.table)
         layout.addWidget(self.add_row_button)
+        layout.addWidget(self.back_button)
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
