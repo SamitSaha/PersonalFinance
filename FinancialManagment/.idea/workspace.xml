@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd5ae90b-af00-450e-b45a-191d5528fee6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/expense.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Designnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Designnn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Expense.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Expense.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Income.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Income.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LogIn.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/LogIn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.qml" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Main.qml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Profile.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Profile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Savings.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Savings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SignUp.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/SignUp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Designnn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Expense.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Income.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LogIn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.qml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Profile.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Savings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignUp.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +57,7 @@
     "Python.auth.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "db",
     "last_opened_file_path": "/home/dexter-lab/PycharmProjects/d/PersonalFinance",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -93,6 +92,7 @@
       <workItem from="1737823473225" duration="2857000" />
       <workItem from="1738762007854" duration="4014000" />
       <workItem from="1738766070463" duration="11000" />
+      <workItem from="1738853501292" duration="715000" />
     </task>
     <servers />
   </component>
