@@ -1,87 +1,42 @@
-# from PySide6.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QPushButton, QVBoxLayout, QWidget
-
-
-# class IncomeFeature(QMainWindow):
-#     def __init__(self):
-#         super().__init__()
-#         self.setWindowTitle("Income Feature")
-#         self.setGeometry(100, 100, 800, 400)
-#         self.init_ui()
-
-#     def init_ui(self):
-#         # Table
-#         self.table = QTableWidget(self)
-#         self.table.setColumnCount(6)
-#         self.table.setHorizontalHeaderLabels(["Date", "Income Value", "Source", "User ID", "Total Income/Day", "Actions"])
-#         self.table.setRowCount(5)  # Example rows; can be dynamic
-
-#         # Add/Edit/Delete buttons in each row
-#         for row in range(5):
-#             self.add_row(row)
-
-#         # Layout
-#         layout = QVBoxLayout()
-#         layout.addWidget(self.table)
-#         container = QWidget()
-#         container.setLayout(layout)
-#         self.setCentralWidget(container)
-
-#     def add_row(self, row):
-#         for col in range(5):
-#             self.table.setItem(row, col, QTableWidgetItem(f"Data {row + 1}-{col + 1}"))
-
-#         # Action buttons
-#         add_button = QPushButton("Add")
-#         edit_button = QPushButton("Edit")
-#         delete_button = QPushButton("Delete")
-#         actions_layout = QVBoxLayout()
-#         actions_layout.addWidget(add_button)
-#         actions_layout.addWidget(edit_button)
-#         actions_layout.addWidget(delete_button)
-#         actions_container = QWidget()
-#         actions_container.setLayout(actions_layout)
-#         self.table.setCellWidget(row, 5, actions_container)
-
-
 from PySide6.QtWidgets import (
     QMainWindow, QTableWidget, QTableWidgetItem, QPushButton, 
-    QVBoxLayout, QWidget, QGridLayout
+    QVBoxLayout, QWidget, QGridLayout, QMessageBox
 )
 from PySide6.QtCore import QDate
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from Database.income_db import IncomeDB
 
 class IncomeFeature(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Income Feature")
         self.setGeometry(100, 100, 900, 500)
+
+        # Initialize database object
+        self.db = IncomeDB()
+
         self.init_ui()
+        self.load_data()
 
     def init_ui(self):
-        # Table
         self.table = QTableWidget(self)
         self.table.setColumnCount(7)
         self.table.setHorizontalHeaderLabels(
-            ["Date", "Income Value", "Source", "User ID", "Category", "Total Day", "Actions"]
+            ["Date", "Income Name", "Cost", "User ID", "Category", "Total Income/Day", "Actions"]
         )
+        self.table.setColumnWidth(6, 250)
 
-        # Adjust column width for better visibility
-        self.table.setColumnWidth(6, 250)  # Actions Column width increased
+        self.table.setRowCount(0)
 
-        # Start with 5 rows (but allow adding more dynamically)
-        self.table.setRowCount(5)
-
-        for row in range(5):
-            self.add_row(row)
-
-        # "Add Row" Button
         self.add_row_button = QPushButton("Add Row")
         self.add_row_button.clicked.connect(self.add_new_row)
-        
-        # Back Button (Closes the Window)
+
         self.back_button = QPushButton("Back")
         self.back_button.clicked.connect(self.close)
 
-        # Layout
         layout = QVBoxLayout()
         layout.addWidget(self.table)
         layout.addWidget(self.add_row_button)
@@ -90,30 +45,28 @@ class IncomeFeature(QMainWindow):
         container.setLayout(layout)
         self.setCentralWidget(container)
 
-    def add_row(self, row):
-        # Auto-fill the date column with the current date
-        current_date = QDate.currentDate().toString("yyyy-MM-dd")
-        self.table.setItem(row, 0, QTableWidgetItem(current_date))
+    def load_data(self):
+        """Fetches data from the database and populates the table."""
+        expenses = self.db.fetch_all_income()
+        
+        self.table.setRowCount(0)  # Clear table before reloading
+        for row_data in expenses:
+            row_index = self.table.rowCount()
+            self.table.insertRow(row_index)
+            for col, data in enumerate(row_data):
+                self.table.setItem(row_index, col, QTableWidgetItem(str(data)))
+            self.add_action_buttons(row_index)
 
-        # Create empty fields for user input
-        for col in range(1, 6):
-            self.table.setItem(row, col, QTableWidgetItem(""))
-
-        # Action Buttons with better visibility
+    def add_action_buttons(self, row):
+        """Adds Add, Update, and Delete buttons to a row."""
         add_button = QPushButton("Add")
         update_button = QPushButton("Update")
         delete_button = QPushButton("Delete")
-
-        # Set minimum size for better visibility
-        for button in [add_button, update_button, delete_button]:
-            button.setMinimumWidth(75)  # Ensure they are large enough
-            button.setMinimumHeight(25)
 
         add_button.clicked.connect(lambda: self.handle_add(row))
         update_button.clicked.connect(lambda: self.handle_update(row))
         delete_button.clicked.connect(lambda: self.handle_delete(row))
 
-        # Use QGridLayout for better spacing
         actions_layout = QGridLayout()
         actions_layout.addWidget(add_button, 0, 0)
         actions_layout.addWidget(update_button, 0, 1)
@@ -127,18 +80,47 @@ class IncomeFeature(QMainWindow):
         """Adds a new row dynamically when 'Add Row' is clicked."""
         row_count = self.table.rowCount()
         self.table.insertRow(row_count)
-        self.add_row(row_count)
+        current_date = QDate.currentDate().toString("yyyy-MM-dd")
+        self.table.setItem(row_count, 0, QTableWidgetItem(current_date))
+        for col in range(1, 6):
+            self.table.setItem(row_count, col, QTableWidgetItem(""))
+        self.add_action_buttons(row_count)
 
     def handle_add(self, row):
-        print(f"Adding data for row {row}")
+        """Adds new data to the database."""
+        data = [self.table.item(row, col).text() if self.table.item(row, col) else "" for col in range(6)]
+        if any(field == "" for field in data):
+            QMessageBox.warning(self, "Error", "All fields must be filled before adding!")
+            return
+
+        self.db.add_income(*data)
+        QMessageBox.information(self, "Success", "Expense added successfully!")
 
     def handle_update(self, row):
-        print(f"Updating data for row {row}")
+        """Updates the existing data in the database."""
+        expense_id = self.table.item(row, 6).text()
+
+        # Get updated values from the table
+        data = [self.table.item(row, col).text() if self.table.item(row, col) else "" for col in range(6)]
+        
+        # Ensure all fields are filled
+        if any(field == "" for field in data):
+            QMessageBox.warning(self, "Error", "All fields must be filled before updating!")
+            return
+
+        # Call the update function with the ID
+        self.db.update_income(expense_id, *data)
+        QMessageBox.information(self, "Success", "Income updated successfully!")
 
     def handle_delete(self, row):
-        """Deletes the selected row."""
-        self.table.removeRow(row)
-        print(f"Deleted row {row}")
+        """Deletes a record from the database."""
+        id = self.table.item(row, 6).text() if self.table.item(row, 6) else ""
+        if not id:
+            QMessageBox.warning(self, "Error", "Invalid date for deletion!")
+            return
 
+        self.db.delete_income(id)
+        self.table.removeRow(row)
+        QMessageBox.information(self, "Success", "Income deleted successfully!")
 
 
