@@ -98,7 +98,11 @@ class IncomeFeature(QMainWindow):
 
     def handle_update(self, row):
         """Updates the existing data in the database."""
+        print("the row ", row)
+        print(f"Item: {self.table.item(row, 6)}")
+        
         expense_id = self.table.item(row, 6).text()
+        print("expense id of income", expense_id)
 
         # Get updated values from the table
         data = [self.table.item(row, col).text() if self.table.item(row, col) else "" for col in range(6)]

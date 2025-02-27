@@ -94,7 +94,7 @@ class SavingsFeature(QMainWindow):
             return
 
         self.db.add_savings(*data)
-        QMessageBox.information(self, "Success", "Expense added successfully!")
+        QMessageBox.information(self, "Success", "Savings added successfully!")
 
     def handle_update(self, row):
         """Updates the existing data in the database."""
@@ -110,7 +110,7 @@ class SavingsFeature(QMainWindow):
         
         # Call the update function with the ID
         self.db.update_savings(expense_id, *data)
-        QMessageBox.information(self, "Success", "Expense updated successfully!")
+        QMessageBox.information(self, "Success", "Savings updated successfully!")
 
     def handle_delete(self, row):
         """Deletes a record from the database."""

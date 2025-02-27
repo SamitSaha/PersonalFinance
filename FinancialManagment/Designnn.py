@@ -17,13 +17,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
     QMenuBar, QPushButton, QSizePolicy, QStatusBar, QInputDialog,
-    QWidget)
+    QWidget, QMessageBox)
 from LogIn import Ui_MainWindow  # Import the login window class from LogIn.py
 from SignUp import Ui_SignUp     # Import the SignUp Window class from SignUp.py
 from Income import IncomeFeature 
 from Expense import ExpenseFeature
 from Savings import SavingsFeature
 from Profile import Ui_ProfileDashboard
+
+import bcrypt
+from Database.Signup_db import DatabaseConnection
 
 class IncomeWindow(QMainWindow):
     def __init__(self):
