@@ -18,6 +18,8 @@ from PySide6.QtWidgets import (QDialogButtonBox, QLabel, QLineEdit, QMenuBar, QP
 import bcrypt
 from PySide6.QtWidgets import QMessageBox
 from Database.Signup_db import DatabaseConnection
+from Profile import Ui_ProfileDashboard
+# from Designnn import Ui_FinancialManagment
 
 
 ################################################################################
@@ -57,6 +59,7 @@ class Ui_MainWindow(object):
         
         MainWindow.setCentralWidget(self.centralwidget)
         
+    
     def authenticate_user(self):
         email = self.emailInput.text().strip()
         password = self.passwordInput.text()
@@ -68,17 +71,61 @@ class Ui_MainWindow(object):
         try:
             db = DatabaseConnection()
             cursor = db.get_cursor()
-            cursor.execute("SELECT password_hash FROM users WHERE email = %s", (email,))
+            cursor.execute("SELECT user_id, first_name, last_name, email, phone, password_hash, profile_pic FROM users WHERE email = %s", (email,))
             user = cursor.fetchone()
 
             if user and bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
                 QMessageBox.information(None, "Success", "Login successful!")
                 # Here, you can open the main dashboard
+
+                # Store user info in a dictionary
+                user_info = {
+                    "id": user["user_id"],
+                    "name": f"{user['first_name']} {user['last_name']}",
+                    "email": user["email"],
+                    "phone": user["phone"],
+                    "profile_picture": user["profile_pic"] if user["profile_pic"] else None
+                }
+
+                # Open the profile dashboard
+                self.open_profile_dashboard(user_info)
+                # self.a = Ui_FinancialManagment() # create a object based on the class
+                # self.a.openProfileDashboard(user_info) # using that object call thats function
+
             else:
                 QMessageBox.warning(None, "Error", "Invalid email or password!")
-        
+
         except Exception as e:
             QMessageBox.warning(None, "Database Error", f"Login failed: {str(e)}")
+
+    def open_profile_dashboard(self, user_info):
+        """Opens the Profile Dashboard with user information."""
+        self.profile_window = Ui_ProfileDashboard(user_info)
+        self.profile_window.exec()
+
+    # def authenticate_user(self):
+    #     email = self.emailInput.text().strip()
+    #     password = self.passwordInput.text()
+
+    #     if not email or not password:
+    #         QMessageBox.warning(None, "Error", "Email and Password cannot be empty!")
+    #         return
+
+    #     try:
+    #         db = DatabaseConnection()
+    #         cursor = db.get_cursor()
+    #         cursor.execute("SELECT password_hash FROM users WHERE email = %s", (email,))
+    #         user = cursor.fetchone()
+
+    #         if user and bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+    #             QMessageBox.information(None, "Success", "Login successful!")
+    #             # Here, you can open the main dashboard
+    #         else:
+    #             QMessageBox.warning(None, "Error", "Invalid email or password!")
+        
+    #     except Exception as e:
+    #         QMessageBox.warning(None, "Database Error", f"Login failed: {str(e)}")
+    # ----------------------- ok ---------------
             
 # ////////////////////////////////////////////////////////////////////////////////////
 

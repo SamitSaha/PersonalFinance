@@ -206,6 +206,10 @@ class Ui_FinancialManagment(object):
             "option": "Premium User"
         }
 
-        # Create and show the Profile Dashboard
+        # Create and show the Profile Dashboard        
         self.profile_dashboard = Ui_ProfileDashboard(user_data)
         self.profile_dashboard.exec()
+        
+    def openReportWindow(self):
+        self.report_dashboard = Ui_ProfileDashboard()
+        self.report_dashboard.exec()
